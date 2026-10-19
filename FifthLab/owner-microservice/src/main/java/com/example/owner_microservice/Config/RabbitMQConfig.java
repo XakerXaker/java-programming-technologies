@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import com.example.owner_microservice.DTO.OwnerDTO;
 import com.example.owner_microservice.DTO.OwnerRequest;
 
-
 @Configuration
 public class RabbitMQConfig {
     public static final String OWNER_REQUEST_QUEUE = "owner.request.queue";
@@ -53,7 +52,6 @@ public class RabbitMQConfig {
                 .with("owner.response");
     }
 
-
     @Bean
     public MessageConverter messageConverter() {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
@@ -64,15 +62,14 @@ public class RabbitMQConfig {
     @Bean
     public DefaultClassMapper classMapper() {
         DefaultClassMapper classMapper = new DefaultClassMapper();
-        
-        // Настраиваем mapping типов
+
         Map<String, Class<?>> idClassMapping = new HashMap<>();
         idClassMapping.put("ownerDTO", OwnerDTO.class);
         idClassMapping.put("ownerRequest", OwnerRequest.class);
-        
+
         classMapper.setIdClassMapping(idClassMapping);
-        classMapper.setTrustedPackages("*"); // Разрешаем все пакеты
-        
+        classMapper.setTrustedPackages("*");
+
         return classMapper;
     }
 

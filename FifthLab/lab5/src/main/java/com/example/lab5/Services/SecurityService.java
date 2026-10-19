@@ -37,9 +37,7 @@ public class SecurityService {
         if (auth == null || !auth.isAuthenticated()) return false;
         Optional<UserAccount> accountOpt = userAccountRepository.findByUsername(auth.getName());
         if (accountOpt.isEmpty()) return false;
-        
-        // In microservice architecture, we need to check if the pet belongs to the user's owner
-        // This would require a call to the pet microservice, but for simplicity, we'll allow USER role
+
         return accountOpt.get().getRole() == Role.USER;
     }
 

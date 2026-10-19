@@ -52,14 +52,12 @@ public class PetService {
     public void addBothFriends(Long id1, Long id2) {
         Pet pet1 = petRepository.findById(id1).get();
         Pet pet2 = petRepository.findById(id2).get();
-        
-        //дружба в обе стороны
+
         pet1.addFriend(pet2);
 
         petRepository.save(pet1);
         petRepository.save(pet2);
     }
-
 
     public PetDTO createPet(PetDTO petDto) {
         Pet pet = new Pet();
@@ -67,13 +65,12 @@ public class PetService {
         pet.setBirthDate(petDto.getBirthDate());
         pet.setBreed(petDto.getBreed());
         pet.setColor(petDto.getColor());
-        
-        // Установить владельца если указан
+
         if (petDto.getOwner().getId() != null) {
             Optional<Owner> owner = ownerRepository.findById(petDto.getOwner().getId());
             owner.ifPresent(pet::setOwner);
         }
-        
+
         Pet savedPet = petRepository.save(pet);
         return PetDTO.fromEntity(savedPet);
     }
@@ -85,12 +82,12 @@ public class PetService {
                     pet.setBirthDate(petDto.getBirthDate());
                     pet.setBreed(petDto.getBreed());
                     pet.setColor(petDto.getColor());
-                    
+
                     if (petDto.getOwner().getId() != null) {
                         Optional<Owner> owner = ownerRepository.findById(petDto.getOwner().getId());
                         owner.ifPresent(pet::setOwner);
                     }
-                    
+
                     return PetDTO.fromEntity(petRepository.save(pet));
                 });
     }
@@ -138,7 +135,6 @@ public class PetService {
         return petRepository.findByColor(color, pageable)
                 .map(PetDTO::fromEntity);
     }
-
 
     public List<PetDTO> findByOwnerId(Long ownerId) {
         return petRepository.findByOwnerId(ownerId).stream()
